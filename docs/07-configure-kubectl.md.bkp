@@ -1,6 +1,6 @@
 ```
 {
-  KUBERNETES_LB_ADDRESS=192.168.6.11
+  KUBERNETES_LB_ADDRESS=192.168.5.11
 
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \

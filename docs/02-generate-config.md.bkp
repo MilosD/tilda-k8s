@@ -1,4 +1,4 @@
-LOADBALANCER_ADDRESS=192.168.6.11
+LOADBALANCER_ADDRESS=192.168.5.11
 
 # kubeconfig za kube-proxy servis
 ```
