@@ -1,13 +1,18 @@
+```
 wget -q --show-progress --https-only --timestamping \
   "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-apiserver" \
   "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-controller-manager" \
   "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-scheduler"
+```
 
+```
 {
   chmod +x kube-apiserver kube-controller-manager kube-scheduler
   sudo mv kube-apiserver kube-controller-manager kube-scheduler /usr/local/bin/
 }
+```
 
+```
 {
   sudo mkdir -p /var/lib/kubernetes/
 
@@ -16,7 +21,9 @@ wget -q --show-progress --https-only --timestamping \
     etcd-server.key etcd-server.crt \
     encryption-config.yaml /var/lib/kubernetes/
 }
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/kube-apiserver.service
 [Unit]
 Description=Kubernetes API Server
@@ -60,9 +67,13 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
 [Unit]
 Description=Kubernetes Controller Manager
@@ -88,9 +99,13 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/kube-scheduler.service
 [Unit]
 Description=Kubernetes Scheduler
@@ -108,11 +123,17 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 {
   sudo systemctl daemon-reload
   sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
   sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 }
+```
 
+```
 kubectl get componentstatuses --kubeconfig admin.kubeconfig
+```
+

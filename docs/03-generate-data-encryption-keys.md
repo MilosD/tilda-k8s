@@ -1,5 +1,8 @@
+```
 ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+```
 
+```
 cat > encryption-config.yaml <<EOF
 kind: EncryptionConfig
 apiVersion: v1
@@ -17,3 +20,4 @@ EOF
 for instance in master-2; do
   scp encryption-config.yaml ${instance}:~/
 done
+```

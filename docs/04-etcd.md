@@ -1,19 +1,27 @@
+```
 wget -q --show-progress --https-only --timestamping \
   "https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz"
+```
 
+```
 {
   tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
   sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
 }
-
+```
+```
 {
   sudo mkdir -p /etc/etcd /var/lib/etcd
   sudo cp ca.crt etcd-server.key etcd-server.crt /etc/etcd/
 }
+```
 
+```
 INTERNAL_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 ETCD_NAME=$(hostname -s)
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
@@ -44,16 +52,20 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 {
   sudo systemctl daemon-reload
   sudo systemctl enable etcd
   sudo systemctl start etcd
 }
-
+```
+```
 sudo ETCDCTL_API=3 etcdctl member list \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/etcd/ca.crt \
   --cert=/etc/etcd/etcd-server.crt \
   --key=/etc/etcd/etcd-server.key
+```
   

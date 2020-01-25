@@ -1,4 +1,5 @@
 # Master
+```
 cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
@@ -20,7 +21,9 @@ rules:
     verbs:
       - "*"
 EOF
+```
 
+```
 cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
@@ -36,4 +39,5 @@ subjects:
     kind: User
     name: kube-apiserver
 EOF
+```
 

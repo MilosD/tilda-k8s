@@ -1,4 +1,5 @@
 # Master node
+```
 cat > openssl-worker-1.cnf <<EOF
 [req]
 req_extensions = v3_req
@@ -16,9 +17,13 @@ EOF
 openssl genrsa -out worker-1.key 2048
 openssl req -new -key worker-1.key -subj "/CN=system:node:worker-1/O=system:nodes" -out worker-1.csr -config openssl-worker-1.cnf
 openssl x509 -req -in worker-1.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -out worker-1.crt -extensions v3_req -extfile openssl-worker-1.cnf -days 1000
+```
 
+```
 LOADBALANCER_ADDRESS=192.168.5.11
+```
 
+```
 {
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
@@ -39,14 +44,20 @@ LOADBALANCER_ADDRESS=192.168.5.11
 
   kubectl config use-context default --kubeconfig=worker-1.kubeconfig
 }
+```
 
+```
 scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
+```
 
 # Worker
+```
 wget -q --show-progress --https-only --timestamping \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet
+```
 
+```
 sudo mkdir -p \
   /etc/cni/net.d \
   /opt/cni/bin \
@@ -54,18 +65,24 @@ sudo mkdir -p \
   /var/lib/kube-proxy \
   /var/lib/kubernetes \
   /var/run/kubernetes
+```
 
+```
 {
   chmod +x kube-proxy kubelet
   sudo mv kube-proxy kubelet /usr/local/bin/
 }
+```
 
+```
 {
   sudo mv ${HOSTNAME}.key ${HOSTNAME}.crt /var/lib/kubelet/
   sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig
   sudo mv ca.crt /var/lib/kubernetes/
 }
+```
 
+```
 cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
@@ -84,7 +101,9 @@ clusterDNS:
 resolvConf: "/run/systemd/resolve/resolv.conf"
 runtimeRequestTimeout: "15m"
 EOF
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
@@ -108,9 +127,13 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
+```
 
+```
 cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
 kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
@@ -119,7 +142,9 @@ clientConnection:
 mode: "iptables"
 clusterCIDR: "192.168.5.0/24"
 EOF
+```
 
+```
 cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
 Description=Kubernetes Kube Proxy
@@ -134,12 +159,17 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 {
   sudo systemctl daemon-reload
   sudo systemctl enable kubelet kube-proxy
   sudo systemctl start kubelet kube-proxy
 }
+```
 
 # Master
+```
 kubectl get nodes --kubeconfig admin.kubeconfig
+```

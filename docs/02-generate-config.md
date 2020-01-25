@@ -1,6 +1,7 @@
 LOADBALANCER_ADDRESS=192.168.5.11
 
 # kubeconfig za kube-proxy servis
+```
 {
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
@@ -21,8 +22,10 @@ LOADBALANCER_ADDRESS=192.168.5.11
 
   kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
 }
+```
 
 # kubeconfig za kube-controller-manager servis
+```
 {
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
@@ -43,9 +46,11 @@ LOADBALANCER_ADDRESS=192.168.5.11
 
   kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig
 }
+```
 
 
 # kubeconfig za kube-scheduler servis
+```
 {
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
@@ -66,8 +71,10 @@ LOADBALANCER_ADDRESS=192.168.5.11
 
   kubectl config use-context default --kubeconfig=kube-scheduler.kubeconfig
 }
+```
 
 # kubeconfig za admin korisnika
+```
 {
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
@@ -88,7 +95,9 @@ LOADBALANCER_ADDRESS=192.168.5.11
 
   kubectl config use-context default --kubeconfig=admin.kubeconfig
 }
+```
 
+```
 for instance in worker-1; do
   scp kube-proxy.kubeconfig ${instance}:~/
 done
@@ -96,3 +105,4 @@ done
 for instance in master-2; do
   scp admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig ${instance}:~/
 done
+```

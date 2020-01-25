@@ -1,3 +1,4 @@
+```
 {
   KUBERNETES_LB_ADDRESS=192.168.5.11
 
@@ -16,6 +17,9 @@
 
   kubectl config use-context kubernetes-the-hard-way
 }
+```
 
+```
 kubectl get componentstatuses
 kubectl get nodes
+```
