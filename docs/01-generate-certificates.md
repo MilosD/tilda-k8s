@@ -1,6 +1,8 @@
 # Na master nodu generisemo SSH kljuc
+```
 ssh-keygen
 
+```
 # Na svim nodovima instaliramo kubectl
 wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl
 chmod +x kubectl
